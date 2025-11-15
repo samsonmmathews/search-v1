@@ -34,7 +34,7 @@ else $_user = false;
 /**
  * Get domain.
  */
-if(is_numeric(strpos($_SERVER['HTTP_HOST'], 'events.'))) $domain = 'events';
+if(is_numeric(strpos($_SERVER['HTTP_HOST'], 'search.'))) $domain = 'search';
 else
 {
 
@@ -71,24 +71,9 @@ $parts = array_filter(explode("/", trim($_SERVER['REQUEST_URI'], "/")));
 if(!count($parts))
 {
 
-    header_redirect(ENV_DOMAIN.'/list');
+    header_redirect(ENV_DOMAIN.'/form');
 
 }
-
-/**
- * ****************************************
- * Custom route rule.
- */
-if(is_numeric($parts[0]))
-{
-
-    include('../qr/redirect.php');
-    exit;
-
-}
-/**
- * ****************************************
- */
 
 /**
  * If the request is an ajax request. 
