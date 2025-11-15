@@ -18,7 +18,7 @@ else
 }
 
 define('APP_NAME', 'Search');
-define('PAGE_TITLE', 'Search');
+define('PAGE_TITLE', 'Search Results');
 define('PAGE_SELECTED_SECTION', '');
 define('PAGE_SELECTED_SUB_PAGE', '');
 
@@ -86,30 +86,59 @@ if(isset($q))
 
 <!-- CONTENT -->
 
-<div class="w3-center">
-
-    <h1>BrickMMO Search</h1>
-
-    <input 
-        class="w3-input w3-border w3-margin-top w3-margin-bottom" 
-        type="text" 
-        value="<?=isset($_GET['key']) ? htmlspecialchars(str_replace('-', ' ', $_GET['key'])) : ''?>"
-        placeholder="" 
-        style="max-width: 300px; display: inline-block; box-sizing: border-box; vertical-align: middle;" 
-        id="search-term">
-
-    <a
-        href="/admin/import/go"
-        class="w3-button w3-white w3-border w3-margin-top w3-margin-bottom" 
-        style="display: inline-block; box-sizing: border-box; vertical-align: middle;"
-        id="search-button"
-    >
-        <i class="fa-solid fa-magnifying-glass"></i> Search
-    </a>
+<?php if(isset($_GET['key']) && mysqli_num_rows($result) > 0): ?>
     
-</div>
+    <div class="w3-center">
 
-<hr>
+        <h1>BrickMMO Search</h1>
+
+        <input 
+            class="w3-input w3-border w3-margin-top w3-margin-bottom" 
+            type="text" 
+            value="<?=isset($_GET['key']) ? htmlspecialchars(str_replace('-', ' ', $_GET['key'])) : ''?>"
+            placeholder="" 
+            style="max-width: 300px; display: inline-block; box-sizing: border-box; vertical-align: middle;" 
+            id="search-term">
+
+        <a
+            href="/admin/import/go"
+            class="w3-button w3-white w3-border w3-margin-top w3-margin-bottom" 
+            style="display: inline-block; box-sizing: border-box; vertical-align: middle;"
+            id="search-button"
+        >
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+        </a>
+        
+    </div>
+
+    <hr>
+
+<?php else: ?>
+
+    <div class="w3-display-middle w3-center" style="width: 100%; max-width: 500px;">
+
+        <h1>BrickMMO Search</h1>
+
+        <input 
+            class="w3-input w3-border w3-margin-top w3-margin-bottom" 
+            type="text" 
+            value="<?=isset($_GET['key']) ? htmlspecialchars(str_replace('-', ' ', $_GET['key'])) : ''?>"
+            placeholder="" 
+            style="max-width: 300px; display: inline-block; box-sizing: border-box; vertical-align: middle;" 
+            id="search-term">
+
+        <a
+            href="/admin/import/go"
+            class="w3-button w3-white w3-border w3-margin-top w3-margin-bottom" 
+            style="display: inline-block; box-sizing: border-box; vertical-align: middle;"
+            id="search-button"
+        >
+            <i class="fa-solid fa-magnifying-glass"></i> Search
+        </a>
+        
+    </div>
+
+<?php endif; ?>
 
 <?php if(isset($_GET['key'])): ?>
 
@@ -132,9 +161,7 @@ if(isset($q))
                 ?>
                 <tr>
                     <td class="bm-table-icon w3-padding">
-                        <?php if(url_exists($favicon_url) ): ?>
-                            <img src="<?=$favicon_url?>" alt="favicon" width="50" height="50">
-                        <?php endif; ?>
+                        <img src="<?=$favicon_url?>" alt="favicon" width="50" height="50" onerror="this.style.display='none'">
                     </td>
                     <td class="w3-padding">
                         <?=$display['title'] ? $display['title'] : 'Missing Title'?>
@@ -145,6 +172,10 @@ if(isset($q))
             <?php endwhile; ?>
 
         </table>
+
+    <?php else: ?>
+
+        <p class="w3-center">No results found for <strong><?=htmlspecialchars(str_replace('-', ' ', $q))?></strong>.</p>
 
     <?php endif; ?>
 
@@ -179,9 +210,8 @@ if(isset($q))
 let searchButton = document.getElementById('search-button');
 let searchTerm = document.getElementById('search-term');
 
-searchButton.addEventListener('click', function(event) {
-
-    event.preventDefault();
+function performSearch() 
+{
 
     let query = searchTerm.value.trim();
 
@@ -191,6 +221,25 @@ searchButton.addEventListener('click', function(event) {
         // Replace spaces with hyphens
         query = query.replace(/\s+/g, '-');
         window.location.href = '/q/' + query;
+    }
+
+}
+
+searchButton.addEventListener('click', function(event) 
+{
+
+    event.preventDefault();
+    performSearch();
+
+});
+
+searchTerm.addEventListener('keypress', function(event) 
+{
+
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        performSearch();
+
     }
 });
 
