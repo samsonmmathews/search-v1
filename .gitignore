@@ -1,2 +1,6 @@
 .DS_Store
 .env
+credentials.json
+
+vendor/
+public/radio_queue/

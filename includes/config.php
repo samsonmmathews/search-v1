@@ -1,9 +1,6 @@
 <?php
 
-// ************************************************************
-// Initialize the session
-// 
-// The session creates a file on the server that allows PHP to 
-// to store data associated with each visitor to your web site.
+date_default_timezone_set('UTC');
 
-session_start();
+define('FILE_TYPES_IMAGES', array('image/png', 'image/jpg', 'image/jpeg', 'image/gif'));
+define('DIRECTIONS', array('north', 'east', 'south', 'west'));
