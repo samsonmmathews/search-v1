@@ -3,8 +3,12 @@
 if(isset($_GET['key']))
 {
 
-    $q = str_replace(' ', '-', trim($_GET['key']));
-
+    $q = string_url($_GET['key']);
+    if($q != $_GET['key'])
+    {
+        die('/q/'.$q);
+    }
+ 
 }
 
 // Get page number from URL if set
@@ -84,10 +88,8 @@ if(isset($q))
 
 ?>
 
-<!-- CONTENT -->
+<?php if(isset($_GET['key'])): ?>
 
-<?php if(isset($_GET['key']) && mysqli_num_rows($result) > 0): ?>
-    
     <div class="w3-center">
 
         <h1>BrickMMO Search</h1>
@@ -101,7 +103,7 @@ if(isset($q))
             id="search-term">
 
         <a
-            href="/admin/import/go"
+            href="#"
             class="w3-button w3-white w3-border w3-margin-top w3-margin-bottom" 
             style="display: inline-block; box-sizing: border-box; vertical-align: middle;"
             id="search-button"
@@ -128,7 +130,7 @@ if(isset($q))
             id="search-term">
 
         <a
-            href="/admin/import/go"
+            href="#"
             class="w3-button w3-white w3-border w3-margin-top w3-margin-bottom" 
             style="display: inline-block; box-sizing: border-box; vertical-align: middle;"
             id="search-button"
@@ -175,7 +177,10 @@ if(isset($q))
 
     <?php else: ?>
 
-        <p class="w3-center">No results found for <strong><?=htmlspecialchars(str_replace('-', ' ', $q))?></strong>.</p>
+        <div class="w3-panel w3-light-grey">
+            <h3 class="w3-margin-top"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> No Results Found</h3>
+            <p>No results found for <strong><?=htmlspecialchars(str_replace('-', ' ', $q))?></strong>.</p>
+        </div>
 
     <?php endif; ?>
 
@@ -200,8 +205,6 @@ if(isset($q))
     </div>
 
 </nav>
-
-
 
 <?php endif; ?>
 
@@ -236,11 +239,12 @@ searchButton.addEventListener('click', function(event)
 searchTerm.addEventListener('keypress', function(event) 
 {
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter') 
+    {
         event.preventDefault();
         performSearch();
-
     }
+
 });
 
 </script>
