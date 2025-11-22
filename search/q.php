@@ -210,42 +210,46 @@ if(isset($q))
 
 <script>
 
-let searchButton = document.getElementById('search-button');
-let searchTerm = document.getElementById('search-term');
+(function() {
 
-function performSearch() 
-{
+    let searchButton = document.getElementById('search-button');
+    let searchTerm = document.getElementById('search-term');
 
-    let query = searchTerm.value.trim();
+    function performSearch() 
+    {
 
-    if (query !== '') {
-        // Remove anything that's not letters, numbers, or spaces
-        query = query.replace(/[^a-zA-Z0-9\s]/g, '');
-        // Replace spaces with hyphens
-        query = query.replace(/\s+/g, '-');
-        window.location.href = '/q/' + query;
+        let query = searchTerm.value.trim();
+
+        if (query !== '') {
+            // Remove anything that's not letters, numbers, or spaces
+            query = query.replace(/[^a-zA-Z0-9\s]/g, '');
+            // Replace spaces with hyphens
+            query = query.replace(/\s+/g, '-');
+            window.location.href = '/q/' + query;
+        }
+
     }
 
-}
-
-searchButton.addEventListener('click', function(event) 
-{
-
-    event.preventDefault();
-    performSearch();
-
-});
-
-searchTerm.addEventListener('keypress', function(event) 
-{
-
-    if (event.key === 'Enter') 
+    searchButton.addEventListener('click', function(event) 
     {
+
         event.preventDefault();
         performSearch();
-    }
 
-});
+    });
+
+    searchTerm.addEventListener('keypress', function(event) 
+    {
+
+        if (event.key === 'Enter') 
+        {
+            event.preventDefault();
+            performSearch();
+        }
+
+    });
+
+})();
 
 </script>
 
