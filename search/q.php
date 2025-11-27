@@ -6,7 +6,7 @@ if(isset($_GET['key']))
     $q = string_url($_GET['key']);
     if($q != $_GET['key'])
     {
-        die('/q/'.$q);
+        header_redirect('/q/'.$q);
     }
  
 }
@@ -179,32 +179,32 @@ if(isset($q))
 
         <div class="w3-panel w3-light-grey">
             <h3 class="w3-margin-top"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> No Results Found</h3>
-            <p>No results found for <strong><?=htmlspecialchars(str_replace('-', ' ', $q))?></strong>.</p>
+            <p>No results found for <span class="w3-bold"><?=htmlspecialchars(str_replace('-', ' ', $q))?></span>.</p>
         </div>
 
     <?php endif; ?>
 
     <nav class="w3-text-center w3-section">
 
-    <div class="w3-bar">            
+        <div class="w3-bar">            
 
-        <?php
-        
-        // Display pagination links
-        for ($i = 1; $i <= $total_pages; $i++) 
-        {
-            echo '<a href="'.ENV_DOMAIN.'/q';
-            if($i > 1) echo '/page/'.$i;
-            echo '/'.$q.'" class="w3-button';
-            if($i == $current_page) echo ' w3-border';
-            echo '">'.$i.'</a>';
-        }
+            <?php
+            
+            // Display pagination links
+            for ($i = 1; $i <= $total_pages; $i++) 
+            {
+                echo '<a href="'.ENV_DOMAIN.'/q';
+                if($i > 1) echo '/page/'.$i;
+                echo '/'.$q.'" class="w3-button';
+                if($i == $current_page) echo ' w3-border';
+                echo '">'.$i.'</a>';
+            }
 
-        ?>
+            ?>
 
-    </div>
+        </div>
 
-</nav>
+    </nav>
 
 <?php endif; ?>
 
