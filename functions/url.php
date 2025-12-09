@@ -39,3 +39,59 @@ function url_exists($url)
     return ($http_code >= 200 && $http_code < 400);
     
 }
+
+function url_status($url)
+{
+    $headers = get_headers($url);
+    if ($headers && isset($headers[0])) {
+        preg_match('/\d{3}/', $headers[0], $matches);
+        if (isset($matches[0])) {
+            return (int)$matches[0];
+        }
+    }
+    return null;
+}
+
+function url_content($url)
+{
+    $options = array(
+        'http' => array(
+            'method'  => 'GET',
+            'header'=>  "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n"
+        )
+    );
+    $context  = stream_context_create($options);
+    $content = @file_get_contents($url, false, $context);
+    return $content;
+}
+
+// Check if domain contains brickmmo.com or codeadam.ca
+function url_check_domain($url)
+{
+
+    $parsed_url = parse_url($url);
+    if (isset($parsed_url['host'])) {
+        $host = $parsed_url['host'];
+        if (preg_match('/\.?brickmmo\.com$/', $host) || preg_match('/\.?codeadam\.ca$/', $host)) {
+            return true;
+        }
+    }
+    return false;
+
+}
+
+function url_clean($url)
+{
+
+    return $url;
+
+}
+
+function url_get_redirect($url)
+{
+    $headers = get_headers($url, 1);
+    if ($headers !== false && isset($headers['Location'])) {
+        return is_array($headers['Location']) ? end($headers['Location']) : $headers['Location'];
+    }
+    return null;
+}

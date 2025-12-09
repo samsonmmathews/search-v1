@@ -1,8 +1,8 @@
 <?php
 
-include('../includes/connect.php');
-include('../includes/config.php');
-include('../includes/functions.php');
+include('../../includes/connect.php');
+include('../../includes/config.php');
+include('../../functions/functions.php');
 
 // DELETE FROM pages WHERE id > 1
 
@@ -49,7 +49,7 @@ if(mysqli_num_rows($result))
             {   
             
                 $link = mysqli_real_escape_string($connect, $link);
-                $link = clean_url($link);
+                $link = url_clean($link);
 
                 $query = 'SELECT *
                     FROM pages
