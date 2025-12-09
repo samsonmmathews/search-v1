@@ -92,7 +92,7 @@ if(mysqli_num_rows($result))
     elseif($status && in_array($status, array(301, 302, 307, 308)))
     {
 
-        $link = get_redirect_url($page['url']);
+        $link = url($page['url']);
 
         if($link)
         {
