@@ -5,6 +5,21 @@ This application will provide a seach engine experience for BrickMMO and CodeAda
 > The live website is available at:  
 > https://search.brickmmo.com
 
+## Future Search Enhancements
+
+The following additions can be made to search results and the spiders:
+
+- Search Events
+- Search Roads
+- Search places
+- Colour profile if search is exact colourColours
+- Part/Swet/Theme if search is exact match
+- Easter eggs
+- Search GiHub, Instagram, TikTok, and YouTube
+- Search Applications
+- Search Brix
+- Search Contributors (can be added to spiders)
+
 ---
 
 ## Project Stack
