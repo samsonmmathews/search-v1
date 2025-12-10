@@ -8,8 +8,8 @@ include('../../functions/functions.php');
 
 $query = 'SELECT *
     FROM pages
-    -- WHERE id = 302
-    ORDER BY linked_at ASC
+    -- WHERE id = 292
+    ORDER BY updated_at ASC
     LIMIT 1';
 $result = mysqli_query($connect, $query);
 
@@ -17,6 +17,12 @@ if(mysqli_num_rows($result))
 {
 
     $page = mysqli_fetch_assoc($result);
+
+    $query = 'UPDATE pages SET
+        updated_at = NOW()
+        WHERE id = '.$page['id'].'
+        LIMIT 1';
+    mysqli_query($connect, $query);
 
     echo '<h1>Scanning: '.$page['url'].'</h1>';
     echo '<p><a href="'.$page['url'].'">'.$page['url'].'</a></p>';
@@ -28,7 +34,6 @@ if(mysqli_num_rows($result))
 
     $query = 'UPDATE pages SET
         status = "'.$status.'",
-        updated_at = NOW(),
         linked_at = NOW()
         WHERE id = '.$page['id'].'
         LIMIT 1';
@@ -92,7 +97,7 @@ if(mysqli_num_rows($result))
     elseif($status && in_array($status, array(301, 302, 307, 308)))
     {
 
-        $link = url($page['url']);
+        $link = url_get_redirect($page['url']);
 
         if($link)
         {
