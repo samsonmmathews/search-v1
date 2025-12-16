@@ -71,7 +71,8 @@ if(isset($q))
     $total_pages = ceil($total_results / $results_per_page);
 
     // Get paginated results
-    $query = 'SELECT DISTINCT title, 
+    $query = 'SELECT DISTINCT pages.id, 
+        title, 
         url, 
         COUNT(word) AS hit_count 
         FROM pages JOIN page_word 
@@ -147,8 +148,8 @@ if(isset($q))
     <?php if (mysqli_num_rows($result) > 0): ?>
 
         <?php
-            $start_result = ($current_page - 1) * $results_per_page + 1;
-            $end_result = min($current_page * $results_per_page, $total_results);
+        $start_result = ($current_page - 1) * $results_per_page + 1;
+        $end_result = min($current_page * $results_per_page, $total_results);
         ?>
 
         <p class="w3-center">Displaying <?=$start_result?>-<?=$end_result?> of <?=$total_results?> results</p>
@@ -156,11 +157,13 @@ if(isset($q))
         <table class="w3-table w3-bordered w3-striped w3-margin-bottom">
 
             <?php while ($display = mysqli_fetch_assoc($result)): ?>
+
                 <?php
-                    $parsed_url = parse_url($display['url']);
-                    $domain = $parsed_url['scheme'] . '://' . $parsed_url['host'];
-                    $favicon_url = $domain . '/favicon.ico';
+                $parsed_url = parse_url($display['url']);
+                $domain = $parsed_url['scheme'] . '://' . $parsed_url['host'];
+                $favicon_url = $domain . '/favicon.ico';
                 ?>
+
                 <tr>
                     <td class="bm-table-icon w3-padding">
                         <img src="<?=$favicon_url?>" alt="favicon" width="50" height="50" onerror="this.style.display='none'">
@@ -169,6 +172,11 @@ if(isset($q))
                         <?=$display['title'] ? $display['title'] : 'Missing Title'?>
                         <br>
                         <a href="<?=$display['url']?>"><?=$display['url']?></a>
+                    </td>
+                    <td class="bm-table-icon">
+                        <a href="<?=ENV_DOMAIN?>/details/<?=$display['id']?>">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </a>
                     </td>
                 </tr>
             <?php endwhile; ?>

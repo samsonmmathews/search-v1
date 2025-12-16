@@ -42,6 +42,12 @@ function url_exists($url)
 
 function url_status($url)
 {
+
+    // Return false if not a valid URL
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        return false;
+    }
+
     $headers = get_headers($url);
     if ($headers && isset($headers[0])) {
         preg_match('/\d{3}/', $headers[0], $matches);

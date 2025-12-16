@@ -9,13 +9,19 @@ function html_fetch_urls($html)
     $pattern = '/href=["\'](https?:\/\/[^\s"\'>]+)["\']/i';
     preg_match_all($pattern, $html, $matches);
 
+    // Remove all trailing slashes from URLs
+    $matches = array_map(function($url) {
+        return rtrim($url, '/');
+    }, $matches[1]);
+
+    // Get unique URLs
     if (!empty($matches[1])) {
-        $urls = array_unique($matches[1]);
+        $urls = array_unique($matches);
     }
 
-    // Remove link to JS and CSS files
+    // Remove link to ICO, JS and CSS files
     $urls = array_filter($urls, function($url) {
-        return !preg_match('/\.(js|css)(\?|$)/i', $url);
+        return !preg_match('/\.(ico|js|css)(\?|$)/i', $url);
     });
 
     return $urls;
