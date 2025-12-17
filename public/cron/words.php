@@ -6,6 +6,7 @@ include('../../functions/functions.php');
 
 $query = 'SELECT *
     FROM pages
+    '.(isset($_GET['id']) ? 'WHERE id = '.$_GET['id'] : '').'
     ORDER BY scrapped_at ASC
     LIMIT 1';
 $result = mysqli_query($connect, $query);

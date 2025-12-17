@@ -64,7 +64,8 @@ if(isset($q))
         ON pages.id = page_word.page_id 
         JOIN words 
         ON page_word.word_id = words.id 
-        WHERE ('.$where_clause.')';
+        WHERE status = 200 
+        AND ('.$where_clause.')';
     $count_result = mysqli_query($connect, $count_query);
     $count_row = mysqli_fetch_assoc($count_result);
     $total_results = $count_row['total'];
@@ -79,7 +80,8 @@ if(isset($q))
         ON pages.id = page_word.page_id 
         JOIN words 
         ON page_word.word_id = words.id 
-        WHERE ('.$where_clause.') 
+        WHERE status = 200
+        AND ('.$where_clause.') 
         GROUP BY pages.id
         ORDER BY hit_count DESC
         LIMIT '.$offset.', '.$results_per_page;

@@ -38,7 +38,6 @@ $result_words = mysqli_query($connect, $query);
 
 ?>
 
-
 <div class="w3-center">
     <h1>BrickMMO Search</h1>
 </div>
@@ -53,7 +52,57 @@ $result_words = mysqli_query($connect, $query);
     <a href="<?=$record['url']?>">
         <span class="w3-bold"><?=$record['url']?></span>
     </a>
+    <br>
+    Status:
+    <span class="w3-bold"><?=$record['status']?></span>
 </p>
+
+<a href="#" class="w3-button w3-white w3-border" id="relink">
+    <i class="fa-solid fa-paperclip fa-padding-right"></i>
+    Rescrape for Link
+</a>
+
+<a href="#" class="w3-button w3-white w3-border" id="rewords">
+    <i class="fa-solid fa-arrow-rotate-left"></i>
+    Rescrape for Words
+</a>
+
+<script>
+
+let relink = document.getElementById('relink');
+let reswords = document.getElementById('rewords');
+
+relink.addEventListener('click', function(event) {
+
+    loading();
+
+    event.preventDefault();
+
+    fetch('<?=ENV_DOMAIN?>/cron/links.php?id=<?=$record['id']?>')
+        .then(response => {
+
+            window.location.reload();
+        
+        });
+
+});
+
+rewords.addEventListener('click', function(event) {
+
+    loading();
+
+    event.preventDefault();
+
+    fetch('<?=ENV_DOMAIN?>/cron/words.php?id=<?=$record['id']?>')
+        .then(response => {
+
+            window.location.reload();
+        
+        });
+
+});
+
+</script>
 
 <hr>
 
@@ -83,6 +132,9 @@ $result_words = mysqli_query($connect, $query);
             <tr>
                 <td class="bm-table-icon w3-padding">
                     <img src="<?=$favicon_url?>" alt="favicon" width="50" height="50" onerror="this.style.display='none'">
+                </td>
+                <td class="bm-table-icon">
+                    <?=$from_page['status']?>
                 </td>
                 <td class="w3-padding">
                     <?=$from_page['title'] ? $from_page['title'] : 'Missing Title'?>
@@ -128,6 +180,9 @@ $result_words = mysqli_query($connect, $query);
             <tr>
                 <td class="bm-table-icon w3-padding">
                     <img src="<?=$favicon_url?>" alt="favicon" width="50" height="50" onerror="this.style.display='none'">
+                </td>
+                <td class="bm-table-icon">
+                    <?=$from_page['status']?>
                 </td>
                 <td class="w3-padding">
                     <?=$record['title'] ? $record['title'] : 'Missing Title'?>
