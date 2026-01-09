@@ -9,6 +9,7 @@ include('../../functions/functions.php');
 $query = 'SELECT *
     FROM pages
     '.(isset($_GET['id']) ? 'WHERE id = '.$_GET['id'] : '').'
+    '.(isset($_GET['page_id']) ? 'WHERE page_id = '.$_GET['page_id'] : '').'
     ORDER BY linked_at ASC
     LIMIT 1';
 $result = mysqli_query($connect, $query);
@@ -16,7 +17,7 @@ $result = mysqli_query($connect, $query);
 if(mysqli_num_rows($result))
 {
 
-    $page = mysqli_fetch_assoc($result);
+    $page = mysqli_fetch_assoc($result);    
 
     $query = 'UPDATE pages SET
         updated_at = NOW(),
@@ -94,6 +95,14 @@ if(mysqli_num_rows($result))
                         echo $query;
 
                     }
+                	else
+                    {
+                    
+                    	echo '<hr>';
+                    	echo 'URL already exists: '.$link;
+                    
+                    }
+                    
 
                 }
 
@@ -148,4 +157,15 @@ if(mysqli_num_rows($result))
     }
     
     
+}
+
+if(isset($_GET['auto']))
+{
+    echo '<script>
+        setTimeout(function(){
+            window.location.href = "links.php?auto'.
+        (isset($_GET['id']) ? '&id='.$_GET['id'] : '').
+        (isset($_GET['page_id']) ? '&page_id='.$_GET['page_id'] : '').
+        '";}, 2000);
+    </script>';
 }
