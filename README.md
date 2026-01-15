@@ -19,6 +19,7 @@ The following additions can be made to search results and the spiders:
 - Search Applications
 - Search Brix
 - Search Contributors (can be added to spiders)
+- Display results differently based on type
 
 ---
 
