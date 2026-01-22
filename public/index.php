@@ -38,10 +38,14 @@ if(is_numeric(strpos($_SERVER['HTTP_HOST'], 'search.'))) $domain = 'search';
 else
 {
 
-    include('404.php');
-    exit;
+    // This goes back in - ANSLEM
+    // include('404.php');
+    // exit;
     
 }
+
+// THis comes out - ANSLEM
+$domain = 'search';
 
 
 /**
